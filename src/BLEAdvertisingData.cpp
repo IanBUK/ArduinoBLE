@@ -142,6 +142,11 @@ bool BLEAdvertisingData::setManufacturerData(const uint8_t manufacturerData[], i
   return success;
 }
 
+const unsigned char* BLEAdvertisingData::getManufacturerData()
+{
+	return _manufacturerData;
+}
+
 bool BLEAdvertisingData::setManufacturerData(const uint16_t companyId, const uint8_t manufacturerData[], int manufacturerDataLength)
 {
   int previousLength = 0;

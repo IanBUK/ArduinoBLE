@@ -80,7 +80,8 @@ public:
 
   virtual void debug(Stream& stream);
   virtual void noDebug();
-  
+  const unsigned char* getManufacturerData();
+
 protected:
   virtual BLEAdvertisingData& getAdvertisingData();
   virtual BLEAdvertisingData& getScanResponseData();

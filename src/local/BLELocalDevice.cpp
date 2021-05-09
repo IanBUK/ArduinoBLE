@@ -204,6 +204,11 @@ bool BLELocalDevice::setManufacturerData(const uint8_t manufacturerData[], int m
   return _advertisingData.setManufacturerData(manufacturerData, manufacturerDataLength);
 }
 
+const unsigned char* BLELocalDevice::getManufacturerData()
+{
+  return _advertisingData.getManufacturerData();
+}
+
 bool BLELocalDevice::setManufacturerData(const uint16_t companyId, const uint8_t manufacturerData[], int manufacturerDataLength)
 {
   return _advertisingData.setManufacturerData(companyId, manufacturerData, manufacturerDataLength);
@@ -300,7 +305,7 @@ BLEDevice BLELocalDevice::central()
 BLEDevice BLELocalDevice::available()
 {
   HCI.poll();
-
+  Serial.println("BLELocalDevice");
   return GAP.available();
 }
 
