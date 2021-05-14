@@ -305,7 +305,7 @@ BLEDevice BLELocalDevice::central()
 BLEDevice BLELocalDevice::available()
 {
   HCI.poll();
-  Serial.println("BLELocalDevice");
+  //Serial.println("BLELocalDevice");
   return GAP.available();
 }
 
