@@ -70,7 +70,8 @@ public:
   bool setRawData(const uint8_t* data, int length);
   bool setRawData(const BLEAdvertisingRawData& data);
   bool setFlags(uint8_t flags);
-
+  const unsigned char* getManufacturerData();
+  
 protected:
   friend class BLELocalDevice;
   bool updateData();

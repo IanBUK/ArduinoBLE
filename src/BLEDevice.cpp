@@ -19,6 +19,7 @@
 
 #include "utility/ATT.h"
 #include "utility/BLEUuid.h"
+#include "utility/BLEManufacturerData.h"
 #include "utility/HCI.h"
 
 #include "remote/BLERemoteDevice.h"
@@ -32,6 +33,18 @@ BLEDevice::BLEDevice() :
 {
   memset(_address, 0x00, sizeof(_address));
 }
+
+int BLEDevice::getAdvertisement(uint8_t value[], int length)
+{
+    if (_eirDataLength > length) return 0;  // Check that buffer size is sufficient
+
+    if (_eirDataLength) {
+        memcpy(value, _eirData, _eirDataLength);
+    }
+
+    return _eirDataLength;
+}
+
 
 BLEDevice::BLEDevice(uint8_t addressType, uint8_t address[6]) :
   _addressType(addressType),
@@ -83,6 +96,11 @@ String BLEDevice::address() const
 bool BLEDevice::hasLocalName() const
 {
   return (localName().length() > 0);
+}
+
+bool BLEDevice::hasManufacturerData() const
+{
+  return (manufacturerData().length() > 0);
 }
 
 bool BLEDevice::hasAdvertisedServiceUuid() const
@@ -145,6 +163,26 @@ String BLEDevice::localName() const
 
   return localName;
 }
+
+String BLEDevice::manufacturerData() const
+{
+  String manufacturerData = "";
+
+  for (int i = 0; i < _eirDataLength;) {
+    int eirLength = _eirData[i++];
+    int eirType = _eirData[i++];
+
+    if (eirType == 0xFF) {
+      manufacturerData = BLEManufacturerData::manufacturerDataToString(&_eirData[i], eirLength);
+      break;
+    }
+
+    i += (eirLength - 1);
+  }
+
+  return manufacturerData;
+}
+
 
 String BLEDevice::advertisedServiceUuid() const
 {
